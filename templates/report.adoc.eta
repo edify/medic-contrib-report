@@ -1,0 +1,54 @@
+= Medic contributions report
+:toc: auto
+:icons: font
+
+<% it.repositories.forEach(function(repository){ %>
+== <%= repository.name %>
+
+=== Open pull requests
+
+Total open pull requests: *<%= repository.totalOpenPullRequests %>*
+
+[cols="1,1"]
+|===
+|Pull Request |Author
+
+<% repository.pullRequests.forEach(function(pr){%>
+|<%= pr.url %>
+|<%= pr.author.login %> (<%= pr.author.name %>)
+<% }) %>
+
+|===
+
+=== Merged pull requests
+
+Total merged pull requests: *<%= repository.totalCommits %>*
+
+[cols="1,1"]
+|===
+|Author |Total merged pull requests
+
+<% repository.commitsPerUser.forEach(function(commitsPerUser){%>
+|<%= commitsPerUser.author.login %> (<%= commitsPerUser.author.name %>)
+|<%= commitsPerUser.totalCommitsCount %>
+<% }) %>
+
+|===
+
+=== Open issues
+
+Total open issues: *<%= repository.totalOpenIssues %>*
+
+[cols="1,1"]
+|===
+|Issue |Assignee
+
+<% repository.issues.forEach(function(issue){%>
+|<%= issue.url %>
+|<%= issue.assignee.login %> (<%= issue.assignee.name %>)
+<% }) %>
+
+|===
+
+<% }) %>
+

@@ -1,0 +1,48 @@
+= medic-contrib-report
+
+This repo generates an Asciidoc report of all Edify's contributions to https://github.com/medic/[Medic's] https://github.com/medic/cht-core[cht-core] and https://github.com/medic/cht-docs[cht-docs] repositories.
+
+The report contains:
+
+- Open pull requests (including author information)
+- Open assign issues (including assignee information)
+- Merged pull requests (including individual contributions by author)
+
+The report is generated using https://docs.github.com/en/graphql[Github's GraphQL API] it assumes that all Edify contributors are part of https://github.com/edify[Edify's Github organization] and belong to the `medic` team.
+
+== Requirements
+
+- https://nodejs.org/[NodeJS] >= 20.x
+- https://docs.asciidoctor.org/asciidoctor/latest/install/[Asciidoctor] (optional for HTML report)
+- https://docs.asciidoctor.org/pdf-converter/latest/install/[Asciidoctor PDF] (optional for PDF report)
+- A Github personal access token (classic) exposed as an environment variable `GH_TOKEN`
+
+== Setup
+
+[source,bash]
+----
+npm ci
+----
+
+== Generating the report
+
+PDF version:
+[source,bash]
+----
+# generates report.pdf
+npm run report:pdf
+----
+
+HTML version:
+[source,bash]
+----
+# generates report.html
+npm run report:html
+----
+
+Asciidoc version:
+[source,bash]
+----
+# generates report.adoc
+npm run report:asciidoc
+----
