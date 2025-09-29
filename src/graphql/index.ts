@@ -5,4 +5,3 @@ export default graphql.defaults({
     authorization: `token ${process.env.GH_TOKEN}`,
   },
 });
-
