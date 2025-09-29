@@ -1,0 +1,57 @@
+on:
+  schedule:
+    - cron: "0 0 * * 5"
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    environment: Release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
+      - uses: actions/setup-ruby@v1
+
+      - run: |
+          gem install asciidoctor
+          gem install asciidoctor-pdf
+
+      - run: |
+          npm ci
+          npm run report:pdf
+          npm run report:html
+          npm run report:asciidoc
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Release mainline
+        uses: ncipollo/release-action@v1
+        with:
+          name: Contributions Report
+          tag: contrib
+          commit: ${{ github.sha }}
+          artifacts: ./report.*
+          allowUpdates: true
+          artifactErrorsFailBuild: true
+          omitBody: true
+          omitBodyDuringUpdate: true
+          removeArtifacts: true
+
+      - uses: rickstaa/action-create-tag@v1
+        with:
+          tag: contrib
+          force_push_tag: true
